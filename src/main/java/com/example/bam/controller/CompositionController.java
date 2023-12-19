@@ -24,15 +24,17 @@ public class CompositionController {
 
     @SneakyThrows
     @PostMapping
-    public ResponseEntity<Composition> create (@RequestPart CompositionDto compositionDto,
+    public ResponseEntity<Composition> create (@RequestPart String title,
+                                               @RequestPart String description,
+                                               @RequestPart String genre,
                                                @RequestPart("notes") MultipartFile notes,
                                                @RequestPart("song") MultipartFile song) {
         Composition composition = new Composition();
-        composition.setTitle(compositionDto.getTitle());
+        composition.setTitle(title);
         composition.setNotes(notes.getBytes());
         composition.setSong(song.getBytes());
-        composition.setDescription(compositionDto.getDescription());
-        composition.setGenre(compositionDto.getGenre());
+        composition.setDescription(description);
+        composition.setGenre(genre);
         Composition newComposition = compositionService.save(composition);
         return ResponseEntity.ok(newComposition);
     }
