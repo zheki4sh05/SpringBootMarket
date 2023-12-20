@@ -9,6 +9,8 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,13 +30,15 @@ public class CompositionController {
                                                @RequestPart String description,
                                                @RequestPart String genre,
                                                @RequestPart("notes") MultipartFile notes,
-                                               @RequestPart("song") MultipartFile song) {
+                                               @RequestPart("song") MultipartFile song,
+                                               @AuthenticationPrincipal User user) {
         Composition composition = new Composition();
         composition.setTitle(title);
         composition.setNotes(notes.getBytes());
         composition.setSong(song.getBytes());
         composition.setDescription(description);
         composition.setGenre(genre);
+        composition.setAuthor(user);
         Composition newComposition = compositionService.save(composition);
         return ResponseEntity.ok(newComposition);
     }

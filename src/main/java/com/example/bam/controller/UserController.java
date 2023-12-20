@@ -74,17 +74,17 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
-    @PutMapping("/updateUser/{id}")
-    public User updateUser(@RequestBody UserDto dto,
-                           @PathVariable Long id) {
-        return userRepository.findUserById(id)
-                .map(user -> {
-                    user.setName(dto.getName());
-                    user.setUsername(dto.getUsername());
-                    user.setPassword(dto.getPassword());
-                    return userRepository.save(user);
-                }).orElseThrow();
-    }
+//    @PutMapping("/updateUser/{id}")
+//    public User updateUser(@RequestBody UserDto dto,
+//                           @PathVariable Long id) {
+//        return userRepository.findUserById(id)
+//                .map(user -> {
+//                    user.setName(dto.getName());
+//                    user.setUsername(dto.getUsername());
+//                    user.setPassword(dto.getPassword());
+//                    return userRepository.save(user);
+//                }).orElseThrow();
+//    }
 
     @DeleteMapping("/deleteUserById/{id}")
     public HttpStatus delete (@PathVariable Long id) {
