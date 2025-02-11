@@ -1,6 +1,5 @@
 package com.example.bam.configuration;
 
-import com.example.bam.entity.Role;
 import io.jsonwebtoken.*;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class JWTTokenProvider  {
     private long jwtExpirationInMs;
 
     @Autowired
-    @Qualifier("userService")
+    @Qualifier("userServiceImpl")
     private UserDetailsService userDetailsService;
 
     @Bean

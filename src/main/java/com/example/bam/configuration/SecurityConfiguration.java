@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -15,7 +16,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final JWTTokenProvider jwtTokenProvider;
 
-    private static final String ADMIN_ENDPOINT = "/api/admin/**";
     private static final String CREATE_USER_ENDPOINT = "/user";
     private static final String LOGIN_ENDPOINT = "/user/login";
 
@@ -45,10 +45,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, CREATE_USER_ENDPOINT, LOGIN_ENDPOINT).permitAll()
-                .antMatchers(ADMIN_ENDPOINT).hasAuthority("ADMIN")
+                .antMatchers(CREATE_USER_ENDPOINT, LOGIN_ENDPOINT).permitAll()
                 .antMatchers(HttpMethod.GET, PUBLIC_URLS).permitAll()
                 .antMatchers("/db/**").permitAll()
+                .antMatchers("/book/create").hasRole("ADMIN")
+                .antMatchers("/book/updateById/*").hasRole("ADMIN")
+                .antMatchers("/book/deleteById/*").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JWTConfig(jwtTokenProvider));

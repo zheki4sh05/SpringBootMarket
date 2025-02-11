@@ -6,7 +6,7 @@ import com.example.bam.dto.UserDto;
 import com.example.bam.entity.User;
 import com.example.bam.mapper.UserMapper;
 import com.example.bam.repository.UserRepository;
-import com.example.bam.service.UserService;
+import com.example.bam.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Autowired
     private UserRepository userRepository;
@@ -74,17 +74,17 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
-//    @PutMapping("/updateUser/{id}")
-//    public User updateUser(@RequestBody UserDto dto,
-//                           @PathVariable Long id) {
-//        return userRepository.findUserById(id)
-//                .map(user -> {
-//                    user.setName(dto.getName());
-//                    user.setUsername(dto.getUsername());
-//                    user.setPassword(dto.getPassword());
-//                    return userRepository.save(user);
-//                }).orElseThrow();
-//    }
+    @PutMapping("/updateUser/{id}")
+    public User updateUser(@RequestBody UserDto dto,
+                           @PathVariable Long id) {
+        return userRepository.findUserById(id)
+                .map(user -> {
+                    user.setName(dto.getName());
+                    user.setUsername(dto.getUsername());
+                    user.setPassword(dto.getPassword());
+                    return userService.save(user);
+                }).orElseThrow();
+    }
 
     @DeleteMapping("/deleteUserById/{id}")
     public HttpStatus delete (@PathVariable Long id) {

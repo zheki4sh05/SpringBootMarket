@@ -2,18 +2,11 @@ package com.example.bam.mapper;
 
 import com.example.bam.dto.UserDto;
 import com.example.bam.entity.User;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
 
-@RequiredArgsConstructor
-@Component
-public class UserMapper {
+@Mapper (componentModel = MappingConstants.ComponentModel.SPRING)
+public interface UserMapper {
+    User userDtoToUser(UserDto userDto);
 
-    public User userDtoToUser(UserDto userDto) {
-        User user = new User();
-        user.setName(userDto.getName());
-        user.setUsername(userDto.getUsername());
-        user.setPassword(userDto.getPassword());
-        return user;
-    }
 }
