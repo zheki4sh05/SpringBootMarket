@@ -14,6 +14,8 @@ import java.util.Set;
 @Setter
 @ToString
 public class UserDto {
+
+    // no need to use @NotEmpty for Strings, @NotBlank is enough
     @NotNull
     @NotEmpty
     @NotBlank
@@ -27,6 +29,7 @@ public class UserDto {
     @NotBlank
     private String password;
 
+    // here add @NotEmpty
     @NotNull
     @Size(min = 1, max = 2)
     private Set<String> roles;

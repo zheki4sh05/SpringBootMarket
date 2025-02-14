@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 @ToString
 public class BookDto {
+    // add validations
     private String title;
     private MultipartFile content;
     private String description;

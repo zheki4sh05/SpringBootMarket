@@ -29,6 +29,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return userRepository.findUserById(id).orElseThrow();
     }
 
+    //return Page
     public List<User> findAll () {
         return userRepository.findAll();
     }
@@ -36,6 +37,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         user.setRole(Set.of(Role.USER));
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 
+
+        //replace setters by builder
         Cart cart = new Cart();
         cart.setUser(user);
         user.setCart(cart);

@@ -64,12 +64,15 @@ public class JWTTokenProvider  {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
 
+    // no need to process HttpServletRequest here, do this in filter
+    // and in case if request has token invoke this method to parse username
     public String resolveToken(HttpServletRequest req) {
         String bearerToken = req.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7, bearerToken.length());
+            // leave only bearerToken.substring(7)
         }
-        return null;
+        return null; // never return null
     }
 
     @SneakyThrows
@@ -85,8 +88,10 @@ public class JWTTokenProvider  {
     }
 
     private List<String> getUserRoleNamesFromJWT(Collection<? extends GrantedAuthority> roles){
+        // user Stream API
         List<String> result = new ArrayList<>();
         roles.forEach(role -> result.add(role.toString()));
+        //---------
         return result;
     }
 }

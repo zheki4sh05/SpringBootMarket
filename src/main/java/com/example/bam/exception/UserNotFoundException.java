@@ -5,6 +5,7 @@ public class UserNotFoundException extends RuntimeException {
         super();
     }
 
+    // unused constructors
     public UserNotFoundException(String message) {
         super(message);
     }

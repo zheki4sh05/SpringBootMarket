@@ -8,6 +8,9 @@ import lombok.ToString;
 @Setter
 @ToString
 public class AuthRequestDto {
+
+  // validations (@Valid, @NotBlank)
+
   private String username;
   private String password;
 }

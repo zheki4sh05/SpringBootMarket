@@ -12,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 
 @Configuration
 @RequiredArgsConstructor
+// use newer Spring Security version and approaches
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final JWTTokenProvider jwtTokenProvider;

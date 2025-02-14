@@ -35,15 +35,15 @@ public class BookController {
     private final BookService bookService;
     private final BookMapper bookMapper;
 
-    @SneakyThrows
-    @PostMapping("/create")
+    @SneakyThrows // controllers must process errors and show corresponding result
+    @PostMapping("/create")  //get params by Map<String, String>
     public ResponseEntity<Book> createBook(@RequestPart String title,
                                            @RequestPart String description,
                                            @RequestPart String genre,
                                            @RequestPart String author,
                                            @RequestPart double price,
                                            @RequestPart("content") MultipartFile content) {
-
+        // move to another method (ex. Util class) and pars params from Map<String, String>
         BookDto bookDto = new BookDto();
         bookDto.setTitle(title);
         bookDto.setDescription(description);
@@ -51,21 +51,28 @@ public class BookController {
         bookDto.setAuthor(author);
         bookDto.setPrice(price);
         bookDto.setContent(content);
+        //---------------------
 
+        // do all mappings in service
         Book book = bookMapper.bookDtoToBook(bookDto);
         Book newBook = bookService.save(book);
+        //
         return ResponseEntity.ok(newBook);
     }
 
     @GetMapping("/findAll")
     public ResponseEntity<List<Book>> findAll() {
+        // all Objects from services need to be a Dtos, return Entities is a bad approach
         List<Book> books = bookService.findAll();
+        //-----------------------------------------------------------------------------
         return ResponseEntity.ok(books);
     }
 
     @GetMapping("/findByTitle/{title}")
     public ResponseEntity<Book> findBookByTitle(@PathVariable String title) {
+        // controllers must work with Dtos
         Book book = bookService.findByTitle(title);
+        //--------------------------------
         return ResponseEntity.ok(book);
     }
 
@@ -83,12 +90,25 @@ public class BookController {
 
     @GetMapping("/findById/{id}")
     public ResponseEntity<Optional<Book>> findBookById(@PathVariable Long id) {
+        // no need to return Optional from controllers. If you need to process NPE, use ifPresent() and
+        // return corresponding result. For example,
+        // in a bad way you can return special ErrorDto
+        // or like this:
+        // @GetMapping("/{id}")
+        //  public ResponseEntity<PersonVO> getPersonById(@PathVariable Long id) {
+        //
+        //    return personService.getPersonById(id)
+        //        .map(ResponseEntity::ok)
+        //        .orElseGet(() -> ResponseEntity.notFound().build());
+        //  }
         Optional<Book> book = bookService.findById(id);
         return ResponseEntity.ok(book);
+        //-------------------------------------------
     }
 
     @PutMapping("/updateById/{id}")
     public Book updateBook(@RequestBody BookDto bookDto, @PathVariable Long id) {
+        // all mappings is service by special mappers
         return bookService.findById(id)
                 .map(book -> {
                     book.setTitle(bookDto.getTitle());
@@ -109,6 +129,7 @@ public class BookController {
     @DeleteMapping("/deleteBookById/{id}")
     public HttpStatus delete (@PathVariable Long id) {
         bookService.delete(id);
+        // But what if not OK?
         return HttpStatus.OK;
     }
 }

@@ -20,7 +20,7 @@ public class CartController {
 
     private final CartService cartService;
 
-    @PostMapping("/add")
+    @PostMapping("/add") // POST with body
     public ResponseEntity<String> addBookToCart(@RequestParam ("userId") Long userId,
                                                 @RequestParam ("bookId") Long bookId) {
         try {
@@ -30,6 +30,15 @@ public class CartController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    //may be try like this:
+//     @GetMapping("/{id}")
+//    public ResponseEntity<PersonVO> getPersonById(@PathVariable Long id) {
+//
+//        return personService.getPersonById(id)
+//                .map(ResponseEntity::ok)
+//                .orElseGet(() -> ResponseEntity.notFound().build());
+//    }
 
     @GetMapping("/findCartById/{id}")
     public ResponseEntity<Optional<Cart>> findCartById(@PathVariable Long id) {

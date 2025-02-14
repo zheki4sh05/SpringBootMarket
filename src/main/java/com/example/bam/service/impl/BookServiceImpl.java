@@ -32,6 +32,7 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findById(id);
     }
 
+    //unused methods
     @Override
     public Book findByGenre(String genre) {
         return bookRepository.findByGenre(genre);
@@ -48,7 +49,7 @@ public class BookServiceImpl implements BookService {
         log.info("Delete book with id {} ", id);
     }
 
-    @Override
+    @Override //return Page<Book>
     public List<Book> findAll() {
         return bookRepository.findAll();
     }

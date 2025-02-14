@@ -4,7 +4,7 @@ import com.example.bam.entity.Book;
 
 import java.util.List;
 import java.util.Optional;
-
+// remove unused methods
 public interface BookService {
     Book save(Book book);
     Book findByTitle(String title);

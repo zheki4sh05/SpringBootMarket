@@ -45,9 +45,12 @@ public class CartServiceImpl implements CartService {
         return cartRepository.findById(id);
     }
 
+
+    // unused method
     @Override
     public void deleteBookFromCart(Long userId, Long bookId) {
 
+        // may be use more Business logic friendly Exceptions
         Cart cart = cartRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Cart not found for user id " + userId));
 
